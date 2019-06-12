@@ -9,19 +9,18 @@ import ListInputs from './ListInputs';
 import ListSelection from './ListSelection';
 import ListTable from './ListTable';
 
-const mapStateToProps = ({
-  groceries: {
-    list: groceryList,
-  },
-}) => ({
+const mapStateToProps = ({ groceries: { list: groceryList } }) => ({
   groceryList,
 });
 
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    addItem,
-  }, dispatch)
-);
+const mapDispatchToProps = dispatch => {
+  bindActionCreators(
+    {
+      addItem,
+    },
+    dispatch,
+  );
+};
 
 class ListContainer extends Component {
   componentWillMount() {
@@ -41,7 +40,7 @@ class ListContainer extends Component {
         </div>
         <div className="types">
           <ListSelection />
-          <ListTable />
+          <ListTable groceryList={this.props.groceryList} />
         </div>
       </section>
     );
@@ -57,6 +56,9 @@ ListContainer.propTypes = {
   // Other
 };
 
-const ListContainerRedux = connect(mapStateToProps, mapDispatchToProps)(ListContainer);
+const ListContainerRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ListContainer);
 
 export default ListContainerRedux;
