@@ -3,6 +3,30 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { removeItem, selectItem, deselectItem } from '../ducks/groceries';
 
+const renderSelectButton = (ownID, selectedID, selectItem, deselectItem) => {
+  if (ownID !== selectedID) {
+    return (
+      <button
+        onClick={() => {
+          selectItem(ownID);
+        }}
+      >
+        select
+      </button>
+    );
+  } else {
+    return (
+      <button
+        onClick={() => {
+          deselectItem(ownID);
+        }}
+      >
+        deselect
+      </button>
+    );
+  }
+};
+
 const renderGroceryTable = ({ currentState, removeItem, selectItem, deselectItem }) => {
   return currentState.list.map(item => {
     return (
@@ -19,20 +43,7 @@ const renderGroceryTable = ({ currentState, removeItem, selectItem, deselectItem
           >
             delete
           </button>
-          <button
-            onClick={() => {
-              selectItem(item.id);
-            }}
-          >
-            select
-          </button>
-          <button
-            onClick={() => {
-              deselectItem(item.id);
-            }}
-          >
-            deselect
-          </button>
+          {renderSelectButton(item.id, currentState.selectedItem.id, selectItem, deselectItem)}
         </td>
       </tr>
     );
